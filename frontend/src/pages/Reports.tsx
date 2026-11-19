@@ -92,16 +92,16 @@ export const ReportsPage: React.FC = () => {
         </div>
 
         {/* Paper Document Preview */}
-        <div className="lg:col-span-8">
-          <Card className="p-8 bg-white border border-gray-200/80 shadow-md space-y-6">
+        <div className="lg:col-span-8 min-w-0">
+          <Card className="p-4 sm:p-8 bg-white border border-gray-200/80 shadow-md space-y-6 overflow-hidden">
             {/* Header Document */}
-            <div className="flex justify-between items-start border-b-2 border-primary-900 pb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b-2 border-primary-900 pb-4">
               <div>
                 <h2 className="text-xl font-black text-primary-950 uppercase tracking-tight">TONTINE PRO</h2>
                 <p className="text-xs text-gray-500">Plateforme de Gestion Numérique des Tontines</p>
                 <p className="text-[10px] text-gray-400">Dakar, Sénégal</p>
               </div>
-              <div className="text-right text-xs">
+              <div className="text-left sm:text-right text-xs">
                 <p className="font-bold text-gray-900">RAPPORT OFFICIEL</p>
                 <p className="text-gray-500">Date d'édition : 17/05/2024</p>
                 <p className="text-gray-500">Réf : DOC-TP-2024-001</p>
@@ -116,7 +116,7 @@ export const ReportsPage: React.FC = () => {
             </div>
 
             {/* Document Content Table */}
-            <div className="space-y-3">
+            <div className="space-y-3 overflow-x-auto max-w-full">
               <h4 className="font-bold text-xs uppercase tracking-wider text-gray-700">Synthèse Financière</h4>
               <table className="w-full text-left text-xs border border-gray-200">
                 <thead className="bg-gray-100 font-bold text-gray-700">

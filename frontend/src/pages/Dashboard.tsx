@@ -157,7 +157,7 @@ export const DashboardPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-2">
             {overdueMembers.map((m, idx) => {
               const msg = generateWhatsAppMessage({
                 phone: m.phone,
@@ -175,7 +175,7 @@ export const DashboardPage: React.FC = () => {
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors shrink-0"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   Relancer {m.name.split(' ')[0]}
@@ -187,10 +187,10 @@ export const DashboardPage: React.FC = () => {
       )}
 
       {/* Main Grid: Chart + Next Payout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 min-w-0">
         {/* Progression Chart */}
-        <div className="lg:col-span-8">
-          <Card className="h-full flex flex-col justify-between">
+        <div className="lg:col-span-8 min-w-0">
+          <Card className="h-full flex flex-col justify-between overflow-hidden">
             <CardHeader
               title="Progression des cotisations"
               subtitle="Montants encaissés vs prévus (en FCFA)"
@@ -200,8 +200,8 @@ export const DashboardPage: React.FC = () => {
                 </span>
               }
             />
-            <CardContent className="pt-4 flex-1">
-              <div className="h-64 w-full">
+            <CardContent className="pt-4 flex-1 min-w-0 overflow-hidden">
+              <div className="h-64 w-full min-w-0">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={mockChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                     <defs>

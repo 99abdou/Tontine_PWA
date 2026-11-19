@@ -63,17 +63,17 @@ export const StatCard: React.FC<StatCardProps> = ({
     <div
       onClick={onClick}
       className={clsx(
-        'bg-white rounded-2xl border border-gray-100 p-5 shadow-sm shadow-gray-200/50 flex flex-col justify-between transition-all duration-200',
+        'bg-white rounded-2xl border border-gray-100 p-4 sm:p-5 shadow-sm shadow-gray-200/50 flex flex-col justify-between transition-all duration-200 min-w-0 overflow-hidden',
         onClick && 'cursor-pointer hover:border-gray-300 hover:shadow-md'
       )}
     >
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">{title}</p>
-          <h4 className="text-2xl font-bold text-gray-900 mt-1 tracking-tight">{value}</h4>
+      <div className="flex items-start justify-between gap-2 min-w-0">
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] sm:text-xs font-semibold text-gray-500 uppercase tracking-wider truncate">{title}</p>
+          <h4 className="text-lg sm:text-2xl font-bold text-gray-900 mt-1 tracking-tight truncate">{value}</h4>
         </div>
-        <div className={clsx('p-2.5 rounded-xl', scheme.iconBg)}>
-          <Icon className="w-5 h-5" />
+        <div className={clsx('p-2 sm:p-2.5 rounded-xl shrink-0', scheme.iconBg)}>
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
         </div>
       </div>
 

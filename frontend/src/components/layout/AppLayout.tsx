@@ -92,7 +92,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col antialiased">
+    <div className="min-h-screen bg-slate-50 flex flex-col antialiased overflow-x-hidden w-full max-w-full">
       {/* Top Header */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -360,7 +360,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         )}
 
         {/* Content Area */}
-        <main className="flex-1 min-w-0 pb-16 md:pb-6">{children}</main>
+        <main className="flex-1 min-w-0 w-full overflow-hidden pb-16 md:pb-6">{children}</main>
       </div>
 
       {/* Mobile Bottom Navigation Bar (PWA standard) */}

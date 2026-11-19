@@ -15,12 +15,20 @@ import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { mockTontines } from '../services/mockData';
 import { formatCurrency, formatDate, tontineTypeLabel } from '../utils/formatters';
+import { useAuthStore } from '../stores/authStore';
 
 export const TontinesPage: React.FC = () => {
+  const { role } = useAuthStore();
+  const isParticipant = role === 'participant';
+
   const [filter, setFilter] = useState<'all' | 'active' | 'brouillon'>('all');
   const [search, setSearch] = useState('');
 
-  const filtered = mockTontines.filter((t) => {
+  const availableTontines = isParticipant
+    ? mockTontines.filter((t) => t.id === 't-1') // Participante appartient à Tontine Diamono
+    : mockTontines;
+
+  const filtered = availableTontines.filter((t) => {
     const matchesFilter = filter === 'all' || t.status === filter;
     const matchesSearch = t.name.toLowerCase().includes(search.toLowerCase());
     return matchesFilter && matchesSearch;
@@ -33,15 +41,19 @@ export const TontinesPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-black text-gray-950 tracking-tight">Mes Tontines</h1>
           <p className="text-xs text-gray-500 mt-0.5">
-            Gérez vos groupes d'épargne, calendriers et règles de versement
+            {isParticipant
+              ? 'Consultez les tontines auxquelles vous appartenez et votre calendrier'
+              : "Gérez vos groupes d'épargne, calendriers et règles de versement"}
           </p>
         </div>
 
-        <Link to="/tontines/create">
-          <Button variant="primary" leftIcon={<Plus className="w-4 h-4" />}>
-            Créer une tontine
-          </Button>
-        </Link>
+        {!isParticipant && (
+          <Link to="/tontines/create">
+            <Button variant="primary" leftIcon={<Plus className="w-4 h-4" />}>
+              Créer une tontine
+            </Button>
+          </Link>
+        )}
       </div>
 
       {/* Filters and search */}

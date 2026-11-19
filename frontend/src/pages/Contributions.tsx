@@ -20,8 +20,12 @@ import { mockMatrixCells, mockMemberships } from '../services/mockData';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import { getWhatsAppUrl, generateWhatsAppMessage } from '../utils/whatsapp';
 import { toast } from '../stores/toastStore';
+import { useAuthStore } from '../stores/authStore';
 
 export const ContributionsPage: React.FC = () => {
+  const { role } = useAuthStore();
+  const isParticipant = role === 'participant';
+
   const [filterPeriod, setFilterPeriod] = useState<number>(3); // Période 3 par défaut
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCell, setSelectedCell] = useState<any>(null);
@@ -52,17 +56,21 @@ export const ContributionsPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-black text-gray-950 tracking-tight">Suivi des Cotisations</h1>
           <p className="text-xs text-gray-500 mt-0.5">
-            Vérifiez les paiements reçus et enregistrez les versements Wave / OM
+            {isParticipant
+              ? 'Consultez les cotisations de votre groupe et l’état de vos reçus'
+              : 'Vérifiez les paiements reçus et enregistrez les versements Wave / OM'}
           </p>
         </div>
 
-        <Button
-          variant="primary"
-          leftIcon={<Plus className="w-4 h-4" />}
-          onClick={() => handleOpenPayment(periodCells[3])}
-        >
-          Enregistrer un paiement
-        </Button>
+        {!isParticipant && (
+          <Button
+            variant="primary"
+            leftIcon={<Plus className="w-4 h-4" />}
+            onClick={() => handleOpenPayment(periodCells[3])}
+          >
+            Enregistrer un paiement
+          </Button>
+        )}
       </div>
 
       {/* Period Selector Strip */}
@@ -83,8 +91,8 @@ export const ContributionsPage: React.FC = () => {
       </div>
 
       {/* Contributions Table */}
-      <Card>
-        <div className="overflow-x-auto">
+      <Card className="overflow-hidden">
+        <div className="overflow-x-auto max-w-full">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="bg-gray-50/80 border-b border-gray-100 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
@@ -163,13 +171,19 @@ export const ContributionsPage: React.FC = () => {
                               <MessageCircle className="w-4 h-4" />
                             </a>
                           )}
-                          <Button
-                            variant="primary"
-                            size="sm"
-                            onClick={() => handleOpenPayment(cell)}
-                          >
-                            Encaisser
-                          </Button>
+                          {!isParticipant ? (
+                            <Button
+                              variant="primary"
+                              size="sm"
+                              onClick={() => handleOpenPayment(cell)}
+                            >
+                              Encaisser
+                            </Button>
+                          ) : (
+                            <span className="text-[11px] font-semibold text-gray-400">
+                              En attente
+                            </span>
+                          )}
                         </div>
                       ) : (
                         <span className="text-[11px] font-bold text-emerald-700 flex items-center justify-end gap-1">

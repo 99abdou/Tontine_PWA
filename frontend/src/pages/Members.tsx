@@ -18,8 +18,11 @@ import { Avatar } from '../components/ui/StatCard';
 import { mockMemberships, mockTontines } from '../services/mockData';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import { getWhatsAppUrl, generateWhatsAppMessage } from '../utils/whatsapp';
+import { useAuthStore } from '../stores/authStore';
 
 export const MembersPage: React.FC = () => {
+  const { role } = useAuthStore();
+  const isParticipant = role === 'participant';
   const [search, setSearch] = useState('');
 
   const filteredMembers = mockMemberships.filter((m) => {
@@ -33,13 +36,17 @@ export const MembersPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-black text-gray-950 tracking-tight">Participantes</h1>
           <p className="text-xs text-gray-500 mt-0.5">
-            Liste de toutes les participantes inscrites dans vos groupes
+            {isParticipant
+              ? 'Membres de votre groupe de tontine'
+              : 'Liste de toutes les participantes inscrites dans vos groupes'}
           </p>
         </div>
 
-        <Button variant="primary" leftIcon={<Plus className="w-4 h-4" />}>
-          Ajouter une participante
-        </Button>
+        {!isParticipant && (
+          <Button variant="primary" leftIcon={<Plus className="w-4 h-4" />}>
+            Ajouter une participante
+          </Button>
+        )}
       </div>
 
       {/* Search Bar */}

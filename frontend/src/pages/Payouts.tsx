@@ -17,8 +17,12 @@ import { Avatar } from '../components/ui/StatCard';
 import { mockPayouts } from '../services/mockData';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import { toast } from '../stores/toastStore';
+import { useAuthStore } from '../stores/authStore';
 
 export const PayoutsPage: React.FC = () => {
+  const { role } = useAuthStore();
+  const isParticipant = role === 'participant';
+
   const [payouts, setPayouts] = useState(mockPayouts);
   const [selectedPayout, setSelectedPayout] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -150,7 +154,7 @@ export const PayoutsPage: React.FC = () => {
                     ) : null}
                   </div>
 
-                  {isCurrent && (
+                  {isCurrent && !isParticipant && (
                     <Button
                       variant="primary"
                       size="md"

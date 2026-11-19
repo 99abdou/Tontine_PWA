@@ -86,8 +86,8 @@ export const TransactionsPage: React.FC = () => {
       </div>
 
       {/* Transactions List Table */}
-      <Card>
-        <div className="overflow-x-auto">
+      <Card className="overflow-hidden">
+        <div className="overflow-x-auto max-w-full">
           <table className="w-full text-left text-xs">
             <thead>
               <tr className="bg-gray-50/80 border-b border-gray-100 text-[11px] font-bold text-gray-500 uppercase tracking-wider">

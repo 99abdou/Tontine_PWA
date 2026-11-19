@@ -17,17 +17,17 @@ import { Button } from '../components/ui/Button';
 
 export const LandingPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-slate-50 text-gray-900 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 text-gray-900 flex flex-col font-sans overflow-x-hidden w-full max-w-full">
       {/* Navbar */}
       <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-950 to-primary-700 flex items-center justify-center text-white shadow-md shadow-primary-900/20">
-              <Coins className="w-5 h-5 text-amber-300" />
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-primary-950 to-primary-700 flex items-center justify-center text-white shadow-md shadow-primary-900/20">
+              <Coins className="w-4 h-4 sm:w-5 sm:h-5 text-amber-300" />
             </div>
             <div>
-              <span className="text-xl font-black tracking-tight text-primary-950">TONTINE<span className="text-amber-600">PRO</span></span>
-              <span className="block text-[9px] font-bold text-primary-800 tracking-widest uppercase">Gestion Numérique Sécurisée</span>
+              <span className="text-lg sm:text-xl font-black tracking-tight text-primary-950">TONTINE<span className="text-amber-600">PRO</span></span>
+              <span className="block text-[8px] sm:text-[9px] font-bold text-primary-800 tracking-widest uppercase">Gestion Numérique</span>
             </div>
           </div>
 
@@ -37,13 +37,14 @@ export const LandingPage: React.FC = () => {
             <a href="#pricing" className="hover:text-primary-800 transition-colors">Tarifs</a>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Link to="/login">
-              <Button variant="ghost" size="sm">Connexion</Button>
+              <Button variant="ghost" size="sm" className="px-2.5 sm:px-3 text-xs sm:text-sm">Connexion</Button>
             </Link>
             <Link to="/register">
-              <Button variant="primary" size="sm" rightIcon={<ArrowRight className="w-4 h-4" />}>
-                Commencer Gratuitement
+              <Button variant="primary" size="sm" className="text-xs sm:text-sm px-3 sm:px-4" rightIcon={<ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}>
+                <span className="hidden sm:inline">Commencer Gratuitement</span>
+                <span className="sm:hidden">S'inscrire</span>
               </Button>
             </Link>
           </div>
@@ -83,18 +84,18 @@ export const LandingPage: React.FC = () => {
                 </Link>
               </div>
 
-              <div className="pt-6 border-t border-gray-200/60 flex items-center gap-8 text-xs font-medium text-gray-500">
-                <div className="flex items-center gap-2">
+              <div className="pt-6 border-t border-gray-200/60 flex flex-wrap items-center gap-4 sm:gap-6 text-xs font-medium text-gray-500">
+                <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle className="w-4 h-4 text-emerald-600" />
                   <span>Calculs 100% automatiques</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle className="w-4 h-4 text-emerald-600" />
                   <span>Rappels WhatsApp en 1 clic</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 shrink-0">
                   <CheckCircle className="w-4 h-4 text-emerald-600" />
-                  <span>Multi-devises (XOF)</span>
+                  <span>Devise XOF (FCFA)</span>
                 </div>
               </div>
             </div>
@@ -323,12 +324,16 @@ export const LandingPage: React.FC = () => {
       {/* Footer */}
       <footer className="mt-auto bg-primary-950 text-white py-12 border-t border-primary-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-primary-300">
-          <div className="flex items-center gap-2">
-            <Coins className="w-5 h-5 text-amber-400" />
-            <span className="font-bold text-white text-sm">TONTINE PRO</span>
-            <span>— Plateforme de gestion numérique des tontines</span>
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-950 to-primary-700 flex items-center justify-center text-white shadow-md shadow-primary-900/20">
+              <Coins className="w-5 h-5 text-amber-300" />
+            </div>
+            <div>
+              <span className="text-xl font-black tracking-tight text-black">TONTINE<span className="text-amber-600">PRO</span></span>
+              <span className="block text-[9px] font-bold text-primary-800 tracking-widest uppercase">Gestion Numérique Sécurisée</span>
+            </div>
           </div>
-          <p>© 2026 TONTINE PRO. Tous droits réservés. Dakar, Sénégal.</p>
+          <p className='text-black'>© 2026 TONTINE PRO. Tous droits réservés. Dakar, Sénégal.</p>
         </div>
       </footer>
     </div>

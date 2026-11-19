@@ -3,9 +3,28 @@
 @tailwind utilities;
 
 @layer base {
-  body {
+  html, body {
     @apply bg-gray-50 text-gray-900 antialiased;
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
   }
+
+  #root {
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+    min-height: 100vh;
+  }
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @layer components {

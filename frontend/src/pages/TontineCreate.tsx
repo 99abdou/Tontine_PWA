@@ -15,10 +15,19 @@ import { Button } from '../components/ui/Button';
 import { Input, Select } from '../components/ui/Input';
 import { formatCurrency } from '../utils/formatters';
 import { toast } from '../stores/toastStore';
+import { useAuthStore } from '../stores/authStore';
 
 export const TontineCreatePage: React.FC = () => {
   const navigate = useNavigate();
+  const { role } = useAuthStore();
   const [step, setStep] = useState(1);
+
+  React.useEffect(() => {
+    if (role === 'participant') {
+      toast.error('Accès restreint', 'Seule une organisatrice peut créer une nouvelle tontine.');
+      navigate('/participant');
+    }
+  }, [role, navigate]);
 
   // Form state
   const [formData, setFormData] = useState({

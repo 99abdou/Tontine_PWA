@@ -16,8 +16,12 @@ import { mockMemberships, mockTontines } from '../services/mockData';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import { getWhatsAppUrl, generateWhatsAppMessage } from '../utils/whatsapp';
 import { toast } from '../stores/toastStore';
+import { useAuthStore } from '../stores/authStore';
 
 export const NotificationsPage: React.FC = () => {
+  const { role } = useAuthStore();
+  const isParticipant = role === 'participant';
+
   const [selectedMemberId, setSelectedMemberId] = useState(mockMemberships[3].id); // Khady Diop
   const [messageType, setMessageType] = useState<'rappel' | 'retard' | 'confirmation_paiement' | 'tour_beneficiaire'>('retard');
 
@@ -36,6 +40,78 @@ export const NotificationsPage: React.FC = () => {
   });
 
   const whatsappLink = getWhatsAppUrl(selectedMember.participant.phone, preparedMessage);
+
+  if (isParticipant) {
+    return (
+      <div className="space-y-6 text-left">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-black text-gray-950 tracking-tight">Mes Notifications</h1>
+            <p className="text-xs text-gray-500 mt-0.5">
+              Historique des rappels, reçus de cotisation et messages de votre organisatrice
+            </p>
+          </div>
+
+          <a
+            href="https://wa.me/221776543210?text=Bonjour%20Fatou,%20j'ai%20une%20question%20concernant%20la%20Tontine%20Diamono"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="success" size="sm" leftIcon={<MessageCircle className="w-4 h-4" />}>
+              Contacter Fatou Sow (Organisatrice)
+            </Button>
+          </a>
+        </div>
+
+        <div className="space-y-3">
+          <Card className="p-4 flex items-start gap-3.5 border-l-4 border-l-emerald-500">
+            <div className="p-2 rounded-xl bg-emerald-50 text-emerald-700 shrink-0">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <div className="flex-1 text-xs space-y-1">
+              <div className="flex justify-between items-center">
+                <span className="font-bold text-gray-900">Reçu de paiement confirmé</span>
+                <span className="text-[10px] text-gray-400">02 Mai 2024</span>
+              </div>
+              <p className="text-gray-600">
+                Votre cotisation de <strong>50.000 FCFA</strong> pour la période de Mai a bien été enregistrée par l’organisatrice.
+              </p>
+            </div>
+          </Card>
+
+          <Card className="p-4 flex items-start gap-3.5 border-l-4 border-l-amber-500">
+            <div className="p-2 rounded-xl bg-amber-50 text-amber-700 shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div className="flex-1 text-xs space-y-1">
+              <div className="flex justify-between items-center">
+                <span className="font-bold text-gray-900">Tour bénéficiaire en cours</span>
+                <span className="text-[10px] text-gray-400">05 Mai 2024</span>
+              </div>
+              <p className="text-gray-600">
+                Le tour #3 de la Tontine Diamono est en cours de collecte pour Aminata Ndiaye. Versement prévu le 10 Mai.
+              </p>
+            </div>
+          </Card>
+
+          <Card className="p-4 flex items-start gap-3.5 border-l-4 border-l-primary-700">
+            <div className="p-2 rounded-xl bg-primary-50 text-primary-800 shrink-0">
+              <Calendar className="w-5 h-5" />
+            </div>
+            <div className="flex-1 text-xs space-y-1">
+              <div className="flex justify-between items-center">
+                <span className="font-bold text-gray-900">Prochaine cotisation</span>
+                <span className="text-[10px] text-gray-400">01 Juin 2024</span>
+              </div>
+              <p className="text-gray-600">
+                Prochaine échéance fixée au <strong>05 Juin 2024</strong> (Période 4). Merci pour votre régularité !
+              </p>
+            </div>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 text-left">

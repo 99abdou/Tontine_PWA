@@ -32,8 +32,12 @@ import {
 import { formatCurrency, formatDate, contributionStatusLabel } from '../utils/formatters';
 import { getWhatsAppUrl, generateWhatsAppMessage } from '../utils/whatsapp';
 import { toast } from '../stores/toastStore';
+import { useAuthStore } from '../stores/authStore';
 
 export const TontineDetailPage: React.FC = () => {
+  const { role } = useAuthStore();
+  const isParticipant = role === 'participant';
+
   const { id } = useParams<{ id: string }>();
   const tontine = mockTontines.find((t) => t.id === id) || mockTontines[0];
   const [activeTab, setActiveTab] = useState('matrix');
@@ -49,10 +53,14 @@ export const TontineDetailPage: React.FC = () => {
     comment: '',
   });
 
-  // Success Toast state
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
   const handleOpenPayment = (cell: any) => {
+    if (isParticipant) {
+      toast.info(
+        'Information cotisation',
+        `${cell.member_name} • Période ${cell.period_number} • Statut : ${contributionStatusLabel[cell.status] || cell.status}`
+      );
+      return;
+    }
     setSelectedCell(cell);
     setPaymentForm({
       amount: cell.expected_amount - cell.paid_amount,
@@ -113,14 +121,16 @@ export const TontineDetailPage: React.FC = () => {
                 Télécharger Bilan
               </Button>
             </Link>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => handleOpenPayment(mockMatrixCells[11])}
-              leftIcon={<CreditCard className="w-4 h-4" />}
-            >
-              Encaisser un paiement
-            </Button>
+            {!isParticipant && (
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() => handleOpenPayment(mockMatrixCells[11])}
+                leftIcon={<CreditCard className="w-4 h-4" />}
+              >
+                Encaisser un paiement
+              </Button>
+            )}
           </div>
         </div>
 
@@ -162,7 +172,7 @@ export const TontineDetailPage: React.FC = () => {
 
       {/* TAB 1: MATRICE DES COTISATIONS (Coeur du projet) */}
       {activeTab === 'matrix' && (
-        <div className="space-y-4 animate-in fade-in">
+        <div className="space-y-4 animate-in fade-in min-w-0 max-w-full">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h3 className="text-base font-bold text-gray-900">Grille de suivi des cotisations</h3>
@@ -188,7 +198,7 @@ export const TontineDetailPage: React.FC = () => {
             </div>
           </div>
 
-          <Card className="overflow-x-auto">
+          <Card className="overflow-x-auto max-w-full">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
                 <tr className="bg-gray-50/80 border-b border-gray-200/80">
@@ -280,9 +290,11 @@ export const TontineDetailPage: React.FC = () => {
         <div className="space-y-4 animate-in fade-in">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-bold text-gray-900">Membres du groupe ({mockMemberships.length})</h3>
-            <Button variant="primary" size="sm" leftIcon={<Plus className="w-4 h-4" />}>
-              Inviter une participante
-            </Button>
+            {!isParticipant && (
+              <Button variant="primary" size="sm" leftIcon={<Plus className="w-4 h-4" />}>
+                Inviter une participante
+              </Button>
+            )}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -394,7 +406,7 @@ export const TontineDetailPage: React.FC = () => {
                       )}
                     </div>
 
-                    {payout.status === 'collecte_en_cours' && (
+                    {payout.status === 'collecte_en_cours' && !isParticipant && (
                       <Button variant="primary" size="sm">
                         Valider Versement
                       </Button>
